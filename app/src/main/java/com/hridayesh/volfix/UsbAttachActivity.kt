@@ -43,7 +43,7 @@ class UsbAttachActivity : Activity() {
         // GET_RANGE
         val rangeBuf = ByteArray(8)
         conn.controlTransfer(0xA1, 0x02, wValue, wIndex, rangeBuf, rangeBuf.size, 1000)
-        val vmax = ((rangeBuf[3].toInt() shl 8) or (rangeBuf[2].toInt() and 0xFF)).toShort()
+        val vmax = ((rangeBuf[5].toInt() shl 8) or (rangeBuf[4].toInt() and 0xFF)).toShort()
 
         // SET_CUR
         val setBuf = byteArrayOf((vmax.toInt() and 0xFF).toByte(), ((vmax.toInt() shr 8) and 0xFF).toByte())
