@@ -31,8 +31,8 @@ class UsbAttachActivity : Activity() {
 
     private fun maxVolume(mgr: UsbManager, device: UsbDevice) {
         val conn: UsbDeviceConnection = mgr.openDevice(device) ?: return
-        val acIface = device.getInterface(0)
-        conn.claimInterface(acIface, true)
+        
+        // WE DELETED claimInterface() SO WE DON'T KILL ANDROID'S AUDIO DRIVER
 
         val FU_ID = 0x02
         val IFACE = 0x00
@@ -52,10 +52,10 @@ class UsbAttachActivity : Activity() {
         if (result >= 0) {
             Log.d("VolFix", "SUCCESS: Volume maxed out at DAC value: $vmax")
         } else {
-            Log.e("VolFix", "FAILED to write volume command.")
+            Log.e("VolFix", "FAILED to write volume command. Kernel blocked it.")
         }
         
-        conn.releaseInterface(acIface)
+        // WE DELETED releaseInterface()
         conn.close()
     }
 }
